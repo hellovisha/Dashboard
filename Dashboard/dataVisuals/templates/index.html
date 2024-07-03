@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Data Display</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Intensity</th>
+                <th>Likelihood</th>
+                <th>Relevance</th>
+                <th>Year</th>
+                <th>Country</th>
+                <th>Topics</th>
+                <th>Region</th>
+                <th>Sector</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in item %}
+            <tr>
+                <td>{{i.intensity}}</td>
+                <td>{{i.likelihood}}</td>
+                <td>{{i.relevance}}</td>
+                <td>{{i.start_year}}</td>
+                <td>{{i.country}}</td>
+                <td>{{i.topic}}</td>
+                <td>{{i.region}}</td>
+                <td>{{i.sector}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
