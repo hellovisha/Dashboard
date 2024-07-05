@@ -1,25 +1,20 @@
-import { Bar } from "react-chartjs-2";
-import Source from "./Source.json"
+// src/components/BarChart.jsx
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
 
-export default function BarChart({option}) {
-  return (
-      <Bar
-      data={{
-        labels: Source.map((data) => data.label),
-        datasets: [
-          {
-            label: "revenue",
-            data: Source.map((data) => data.value ),
-            backgroundColor: [
-              "rgba(43, 63, 229, 0.8)",
-              "rgba(250, 192, 19, 0.8)",
-              "rgba(253, 135, 135, 0.8)",
-            ],
-            borderRadius: 5,
-          },
-        ],
-      }}
-      options={option}
-      />
-  )
-}
+const BarChart = ({ data, option }) => {
+  const chartData = {
+    labels: data.map(item => item.topic),
+    datasets: [
+      {
+        label: 'Intensity',
+        data: data.map(item => item.intensity),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+    ],
+  };
+
+  return <Bar data={chartData} options={option} />;
+};
+
+export default BarChart;

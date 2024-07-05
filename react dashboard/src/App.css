@@ -33,3 +33,11 @@
     width: 40%;
     height: 20rem;
 }
+
+/* src/App.css */
+.filter-container {
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+  }
+  

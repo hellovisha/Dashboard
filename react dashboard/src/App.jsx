@@ -1,11 +1,11 @@
-import { element } from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import BarChart from './components/BarChart';
 import LineChart from './components/LineChart';
-import Navbar from './components/Navbar';
 import PieChart from './components/PieChart';
-import { Chart as ChartJS , defaults } from "chart.js/auto";
+import Navbar from './components/Navbar';
+import FilterComponent from './components/FilterComponent';
+import { Chart as ChartJS, defaults } from "chart.js/auto";
 import axios from 'axios';
 
 defaults.maintainAspectRatio = false;
@@ -17,17 +17,35 @@ defaults.plugins.title.color = "black";
 
 function App() {
   const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/api/items/')
       .then(response => {
-        console.log(response)
         setItems(response.data);
+        setFilteredItems(response.data); // Initialize filtered items
       })
       .catch(error => {
         console.log("There was an error fetching the data!", error);
       });
   }, []);
+
+  const handleFilter = (filters) => {
+    const { endYear, topic, sector, region, pestle, source, swot, country, city } = filters;
+    const filtered = items.filter(item => {
+      return (endYear ? item.end_year === endYear : true) &&
+             (topic ? item.topic === topic : true) &&
+             (sector ? item.sector === sector : true) &&
+             (region ? item.region === region : true) &&
+             (pestle ? item.pestle === pestle : true) &&
+             (source ? item.source === source : true) &&
+             (swot ? item.swot === swot : true) &&
+             (country ? item.country === country : true) &&
+             (city ? item.city === city : true);
+    });
+    setFilteredItems(filtered);
+  };
+
   const chartOptions = {
     plugins: {
       title: {
@@ -45,59 +63,36 @@ function App() {
   };
 
   const LineOption = {
-    elements:{
-      line:{
-        tension:0.3
+    elements: {
+      line: {
+        tension: 0.3,
       },
     },
     plugins: {
       title: {
-        text:  "Monthly Revenue & Cost",
+        text: "Monthly Revenue & Cost",
       },
     },
   };
-  
+
   return (
     <>
-    <Navbar/>
+      <Navbar />
+      <FilterComponent onFilter={handleFilter} />
       <div className='App'>
         <div className="Chart Line">
-        <LineChart option={LineOption}/>
+          <LineChart data={filteredItems} option={LineOption} />
         </div>
         <div className="Chart Bar">
-        <BarChart option={chartbarOption}/>
+          <BarChart data={filteredItems} option={chartbarOption} />
         </div>
         <div className="Chart Pie">
-        <PieChart options={chartOptions}/>
+          <PieChart data={filteredItems} options={chartOptions} />
         </div>
       </div>
-      <div className="App">
-      <h1>Items</h1>
-      <ul>
-        {items.map(item => (
-          <li key={item.id}>
-            <h2>{item.title}</h2>
-            <p><strong>End Year:</strong> {item.end_year}</p>
-            <p><strong>Intensity:</strong> {item.intensity}</p>
-            <p><strong>Sector:</strong> {item.sector}</p>
-            <p><strong>Topic:</strong> {item.topic}</p>
-            <p><strong>Insight:</strong> {item.insight}</p>
-            <p><strong>Start Year:</strong> {item.start_year}</p>
-            <p><strong>Region:</strong> {item.region}</p>
-            <p><strong>Impact:</strong> {item.impact}</p>
-            <p><strong>Added:</strong> {item.added}</p>
-            <p><strong>Published:</strong> {item.published}</p>
-            <p><strong>Country:</strong> {item.country}</p>
-            <p><strong>Relevance:</strong> {item.relevance}</p>
-            <p><strong>Pestle:</strong> {item.pestle}</p>
-            <p><strong>Source:</strong> {item.source}</p>
-            <p><strong>Likelihood:</strong> {item.likelihood}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+      
     </>
-  )
+  );
 }
 
-export default App
+export default App;
