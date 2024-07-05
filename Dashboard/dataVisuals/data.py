@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
 
-json_path = r"C:\Users\sachi\OneDrive\Desktop\Data Dashboard\Dashboard\dataVisuals\jsondata.json"
+json_path = r"C:\Users\USER\Desktop\full Stack project\DashBoard\Dashboard\dataVisuals\jsondata.json"
 
 try:
     with open(json_path, 'r', encoding='utf-8') as f:
