@@ -1,33 +1,37 @@
+import React from "react";
 import { Line } from "react-chartjs-2";
-import Data from "./Data.json";
 
-export default function LineChart({option}) {
+
+export default function LineChart({ data, option }) {
   return (
-   <Line data={{
-    labels: Data.map((data) => data.label),
-    datasets: [
-      {
-        label: "Revenue",
-        data: Data.map((data) => data.revenue),
-        backgroundColor: "#064FF0",
-        borderColor: "#064FF0",
-      },
-      {
-        label: "Cost",
-        data: Data.map((data) => data.cost),
-        backgroundColor: "#FF3030",
-        borderColor: "#FF3030",
-      },
-      {
-        label: "Cost",
-        data: Data.map((data) => data.profit),
-        backgroundColor: "#b012da",
-        borderColor: "#b012da",
-      },
-    ],
-   }
-  }
-  options={option}
-   />
-  )
+    <Line
+      data={{
+        labels: data.map((item) => item.topic), // or any other field you want to use as labels
+        datasets: [
+          {
+            label: "Intensity",
+            data: data.map((item) => item.intensity),
+            backgroundColor: "rgba(6, 79, 240, 0.2)",
+            borderColor: "#064FF0",
+            fill: false,
+          },
+          {
+            label: "Relevance",
+            data: data.map((item) => item.relevance),
+            backgroundColor: "rgba(255, 48, 48, 0.2)",
+            borderColor: "#FF3030",
+            fill: false,
+          },
+          {
+            label: "Likelihood",
+            data: data.map((item) => item.likelihood),
+            backgroundColor: "rgba(176, 18, 218, 0.2)",
+            borderColor: "#b012da",
+            fill: false,
+          },
+        ],
+      }}
+      options={option}
+    />
+  );
 }
